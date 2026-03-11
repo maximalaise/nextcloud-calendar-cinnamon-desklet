@@ -1,0 +1,44 @@
+/* Alle Cinnamon Desklet-Wrapper transparent machen */
+.desklet,
+.desklet-with-borders,
+.desklet-with-borders-and-header,
+.desklet-header {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
+
+/* Nur dein runder Container soll sichtbar sein */
+.calendar-container {
+    background-color: rgba(20, 28, 38, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 25px !important;
+    padding: 20px;
+    min-width: 250px;
+}
+
+.calendar-header {
+    color: #fca903;
+    font-size: 18pt;
+    font-weight: bold;
+
+}
+
+.calendar-text {
+    color: #dde3ea;
+    font-family: "SF Pro Text Regular", "SF Pro Text", sans-serif;
+    font-size: 15pt;
+}
+
+/* StBin Wrapper direkt ansprechen */
+.desklet-with-borders:last-child {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}

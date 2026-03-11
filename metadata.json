@@ -1,0 +1,6 @@
+{
+    "uuid": "nextcloud-calendar@max",
+    "name": "Nextcloud Termine",
+    "description": "Zeigt Termine aus Nextcloud",
+    "prevent-decoration": true
+}
