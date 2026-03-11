@@ -1,6 +1,9 @@
 {
-    "uuid": "nextcloud-calendar@max",
-    "name": "Nextcloud Termine",
-    "description": "Zeigt Termine aus Nextcloud",
+    "uuid": "nextcloud-calendar@maximalaise",
+    "name": "Nextcloud Calendar",
+    "description": "Displays upcoming appointments from your Nextcloud calendar",
+    "version": "1.0.0",
+    "author": "Max Brunner",
+    "website": "https://github.com/maximalaise/nextcloud-calendar-cinnamon-desklet",
     "prevent-decoration": true
 }
