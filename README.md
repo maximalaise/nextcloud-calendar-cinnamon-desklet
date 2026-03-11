@@ -27,13 +27,13 @@ The desklet shows all appointments for the current week with date and time. A cl
 
 ```bash
 git clone https://github.com/YOUR-USERNAME/nextcloud-calendar-desklet.git \
-  ~/.local/share/cinnamon/desklets/nextcloud-calendar@YOUR-USERNAME
+  ~/.local/share/cinnamon/desklets/nextcloud-calendar@maximalaise
 ```
 
 ### 2. Run setup
 
 ```bash
-cd ~/.local/share/cinnamon/desklets/nextcloud-calendar@YOUR-USERNAME
+cd ~/.local/share/cinnamon/desklets/nextcloud-calendar@maximalaise
 chmod +x setup.sh
 ./setup.sh
 ```
