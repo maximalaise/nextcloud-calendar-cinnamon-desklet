@@ -50,6 +50,12 @@
     "step": 1,
     "units": "px",
     "description": "Eckenradius / Border radius"
+},
+
+    "click-command": {
+    "type": "entry",
+    "default": "gnome-calendar",
+    "description": "Befehl bei Klick / Command on click"
 }
 
 }

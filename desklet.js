@@ -23,6 +23,7 @@ MyDesklet.prototype = {
         this.settings.bindProperty(Settings.BindingDirection.IN, "background-opacity", "backgroundOpacity", this.onSettingsChanged, null);
         this.settings.bindProperty(Settings.BindingDirection.IN, "show-timestamp", "showTimestamp", this.onSettingsChanged, null);
         this.settings.bindProperty(Settings.BindingDirection.IN, "border-radius", "borderRadius", this.onSettingsChanged, null);
+        this.settings.bindProperty(Settings.BindingDirection.IN, "click-command", "clickCommand", null, null);
 
         let parent = this.actor.get_parent();
         if (parent) {
@@ -54,7 +55,7 @@ MyDesklet.prototype = {
     },
 
     startRefreshCycle: function() {
-        Util.spawnCommandLine("python3 " + this.metadata.path + "/nextcloudfetcher.py");
+        Util.spawnCommandLine("python3 '" + this.metadata.path + "/nextcloudfetcher.py'");
 
         GLib.timeout_add_seconds(0, 10, () => {
             this.updateLabel();
@@ -108,7 +109,9 @@ MyDesklet.prototype = {
     },
 
     on_desklet_clicked: function(event) {
-        Util.spawnCommandLine("gnome-calendar");
+        if (this.clickCommand && this.clickCommand.trim() !== "") {
+            Util.spawnCommandLine(this.clickCommand);
+        }
     }
 }
 
