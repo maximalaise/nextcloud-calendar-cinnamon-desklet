@@ -42,3 +42,9 @@
     border-radius: 0 !important;
     padding: 0 !important;
 }
+
+.calendar-timestamp {
+    color: #888888;
+    font-size: 9pt;
+    margin-top: 5px;
+}

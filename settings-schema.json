@@ -1,0 +1,55 @@
+{
+    "view": {
+        "type": "combobox",
+        "default": "week",
+        "description": "Ansicht / View",
+        "options": {
+            "Woche / Week": "week",
+            "Heute / Today": "day"
+        }
+    },
+    "font-color": {
+        "type": "colorchooser",
+        "default": "#dde3ea",
+        "description": "Schriftfarbe / Font color"
+    },
+    "header-color": {
+        "type": "colorchooser",
+        "default": "#fca903",
+        "description": "Überschriftfarbe / Header color"
+    },
+    "font-size": {
+        "type": "spinbutton",
+        "default": 12,
+        "min": 8,
+        "max": 24,
+        "step": 1,
+        "units": "pt",
+        "description": "Schriftgröße / Font size"
+    },
+    "background-opacity": {
+        "type": "scale",
+        "default": 0.85,
+        "min": 0.0,
+        "max": 1.0,
+        "step": 0.05,
+        "description": "Hintergrund Transparenz / Background opacity"
+    },
+
+    "show-timestamp": {
+    "type": "checkbox",
+    "default": true,
+    "description": "Letzte Aktualisierung anzeigen / Show last update"
+    },
+
+    "border-radius": {
+    "type": "scale",
+    "default": 25,
+    "min": 0,
+    "max": 50,
+    "step": 1,
+    "units": "px",
+    "description": "Eckenradius / Border radius"
+}
+
+}

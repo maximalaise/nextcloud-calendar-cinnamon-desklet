@@ -2,7 +2,18 @@ import caldav
 import os
 import keyring
 import locale
+import urllib.request
+import json
 from datetime import datetime, timedelta
+
+CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
+
+def get_config():
+    try:
+        with open(CONFIG_FILE, "r") as f:
+            return json.load(f)
+    except:
+        return {"view": "week"}
 
 def get_language():
     lang = locale.getdefaultlocale()[0]
@@ -15,6 +26,9 @@ TEXTS = {
         "no_events": "Du hast diese Woche keine Termine.",
         "one_event": "Du hast diese Woche einen Termin:",
         "many_events": "Du hast diese Woche {} Termine:",
+        "no_events_day": "Du hast heute keine Termine.",
+        "one_event_day": "Du hast heute einen Termin:",
+        "many_events_day": "Du hast heute {} Termine:",
         "error_password": "Fehler: Kein Passwort im Keyring gefunden.\nBitte einmalig speichern mit:\npython3 -c \"import keyring; keyring.set_password('nextcloud', 'EMAIL', 'PASSWORT')\"",
         "error": "Fehler: {}",
         "no_calendars": "Keine Kalender gefunden!",
@@ -23,6 +37,9 @@ TEXTS = {
         "no_events": "You have no appointments this week.",
         "one_event": "You have one appointment this week:",
         "many_events": "You have {} appointments this week:",
+        "no_events_day": "You have no appointments today.",
+        "one_event_day": "You have one appointment today:",
+        "many_events_day": "You have {} appointments today:",
         "error_password": "Error: No password found in keyring.\nPlease store it once with:\npython3 -c \"import keyring; keyring.set_password('nextcloud', 'EMAIL', 'PASSWORD')\"",
         "error": "Error: {}",
         "no_calendars": "No calendars found!",
@@ -33,7 +50,17 @@ T = TEXTS[LANG]
 
 OUTPUT_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "nextcloud_display.txt")
 
+def is_connected():
+    try:
+        urllib.request.urlopen("https://www.google.com", timeout=5)
+        return True
+    except:
+        return False
+
 def check_calendar():
+    if not is_connected():
+        return
+
     URL = keyring.get_password("nextcloud", "url")
     USERNAME = keyring.get_password("nextcloud", "username")
     PASSWORD = keyring.get_password("nextcloud", USERNAME)
@@ -54,23 +81,37 @@ def check_calendar():
             return
 
         my_calendar = calendars[0]
+        config = get_config()
         now = datetime.now()
-        tage_bis_sonntag = 6 - now.weekday()
-        wochen_ende = now + timedelta(days=tage_bis_sonntag)
-        wochen_ende = wochen_ende.replace(hour=23, minute=59, second=59)
-        events = my_calendar.date_search(start=now, end=wochen_ende, expand=True)
+
+        if config["view"] == "day":
+            end = now.replace(hour=23, minute=59, second=59)
+        else:
+            tage_bis_sonntag = 6 - now.weekday()
+            end = now + timedelta(days=tage_bis_sonntag)
+            end = end.replace(hour=23, minute=59, second=59)
+
+        events = my_calendar.date_search(start=now, end=end, expand=True)
         anzahl = len(events)
 
         lines = []
-        if anzahl == 0:
-            lines.append(T["no_events"])
-        elif anzahl == 1:
-            lines.append(T["one_event"])
+        if config["view"] == "day":
+            if anzahl == 0:
+                lines.append(T["no_events_day"])
+            elif anzahl == 1:
+                lines.append(T["one_event_day"])
+            else:
+                lines.append(T["many_events_day"].format(anzahl))
         else:
-            lines.append(T["many_events"].format(anzahl))
+            if anzahl == 0:
+                lines.append(T["no_events"])
+            elif anzahl == 1:
+                lines.append(T["one_event"])
+            else:
+                lines.append(T["many_events"].format(anzahl))
 
         events.sort(key=lambda x: x.vobject_instance.vevent.dtstart.value)
-        for event in events:
+        for i, event in enumerate(events):
             vcal = event.vobject_instance.vevent
             summary = vcal.summary.value
             start_time = vcal.dtstart.value
@@ -79,7 +120,15 @@ def check_calendar():
 
             formatierte_zeit = start_time.strftime("%a, %d.%m. %H:%M")
             lines.append(f"• {formatierte_zeit}: {summary}")
-            lines.append("")
+            if i < len(events) - 1:
+                lines.append("")
+
+        if LANG == "de":
+            zeitstempel = "##Zuletzt aktualisiert: " + datetime.now().strftime("%H:%M")
+        else:
+            zeitstempel = "##Last updated: " + datetime.now().strftime("%H:%M")
+        lines.append("")
+        lines.append(zeitstempel)
 
         with open(OUTPUT_FILE, "w") as f:
             f.write("\n".join(lines))

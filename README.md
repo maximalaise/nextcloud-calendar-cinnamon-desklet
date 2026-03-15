@@ -8,7 +8,7 @@ A Cinnamon desklet for Linux Mint that displays your upcoming appointments from 
 
 ## Preview
 
-The desklet shows all appointments for the current week with date and time. A click opens the GNOME Calendar app. Data is automatically refreshed every 15 minutes.
+The desklet shows all appointments for the current week or day with date and time. A click opens the GNOME Calendar app. Data is automatically refreshed every 15 minutes.
 
 ---
 
@@ -26,7 +26,7 @@ The desklet shows all appointments for the current week with date and time. A cl
 ### 1. Download the desklet
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/nextcloud-calendar-desklet.git \
+git clone https://github.com/maximalaise/nextcloud-calendar-cinnamon-desklet.git \
   ~/.local/share/cinnamon/desklets/nextcloud-calendar@maximalaise
 ```
 
@@ -47,6 +47,23 @@ The setup script:
 ### 3. Add the desklet
 
 Right-click on the desktop → **Desklets** → **Nextcloud Calendar** → Add to desktop
+
+---
+
+## Features
+
+- Shows appointments for the **current week or today** (switchable)
+- **Automatic language detection** – displays in English or German based on system language
+- **Offline support** – if no internet connection is available, the last fetched data remains displayed
+- **Last updated** timestamp (optional)
+- Fully **customizable appearance** via right-click menu:
+  - Font color
+  - Header color
+  - Font size
+  - Background opacity
+  - Border radius
+  - Show/hide timestamp
+- Click opens **GNOME Calendar**
 
 ---
 
@@ -79,10 +96,11 @@ python3 -c "import keyring; keyring.set_password('nextcloud', 'your@email.com', 
 ## Project structure
 
 ```
-nextcloud-calendar@YOUR-USERNAME/
+nextcloud-calendar@maximalaise/
 ├── desklet.js              # Cinnamon desklet
 ├── stylesheet.css          # Styling
 ├── metadata.json           # Desklet metadata
+├── settings-schema.json    # Settings menu configuration
 ├── nextcloudfetcher.py     # Fetches appointments from Nextcloud
 ├── setup.sh                # Setup script
 ├── .gitignore
